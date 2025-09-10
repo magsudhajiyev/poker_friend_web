@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poker Friend - Your Ultimate Poker Companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo-container">
+                <a href="/" class="logo-link">
+                    <img src="logo.png" alt="Poker Friend Logo" class="logo">
+                    <span class="logo-text">Poker Friend</span>
+                </a>
+            </div>
+            
+            <nav class="nav desktop-nav">
+                <div class="nav-rounded-container">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="#features-section" class="nav-link">
+                                <span class="nav-text">Features</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#about" class="nav-link">
+                                <span class="nav-text">About</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#pricing" class="nav-link">
+                                <span class="nav-text">Pricing</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#contact" class="nav-link">
+                                <span class="nav-text">Contact</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <a href="#download" class="cta-button desktop-cta">
+                <span class="button-text">Download App</span>
+            </a>
+            
+            <!-- Mobile hamburger menu button -->
+            <button class="hamburger-menu" id="hamburgerMenu" aria-label="Toggle navigation">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
+        
+        <!-- Mobile Navigation Menu -->
+        <div class="mobile-nav" id="mobileNav">
+            <nav class="mobile-nav-content">
+                <ul class="mobile-nav-list">
+                    <li class="mobile-nav-item">
+                        <a href="#features-section" class="mobile-nav-link">Features</a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="#about" class="mobile-nav-link">About</a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="#pricing" class="mobile-nav-link">Pricing</a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="#contact" class="mobile-nav-link">Contact</a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="#download" class="mobile-nav-link cta-link">Download App</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <section class="hero">
+            <div class="hero-container">
+                <div class="hero-content" style="margin-top: -4rem;">
+                    <div class="hero-text">
+                        <h1 class="hero-title">Your Ultimate Poker Companion</h1>
+                        <p class="hero-subtitle">Track your games, improve your strategy, and elevate your poker experience with Poker Friend.</p>
+                        <form class="waitlist-form" id="waitlistForm">
+                            <input type="email" placeholder="Enter your email address" class="email-input" id="emailInput" required>
+                            <button type="submit" class="waitlist-button" id="submitButton">
+                                <span class="button-front">Join Waitlist</span>
+                                <span class="button-back">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M20 6L9 17L4 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </span>
+                            </button>
+                        </form>
+                        <p class="waitlist-note" id="waitlistNote">Be the first to know when we launch. No spam, ever.</p>
+                    </div>
+                    <div class="hero-visual">
+                        <div class="phone-mockup">
+                            <!-- Mobile phone mockup will be placed here -->
+                            <div class="phone-placeholder">
+                                <p>Mobile App Preview</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section with Scroll Animation -->
+        <section class="features-section" id="features-section">
+            <div class="features-trigger"></div>
+            <div class="features-content">
+                <div class="features-container">
+                    <div class="app-features">
+                        <div class="feature-item feature-left">
+                            <div class="feature-screenshot">
+                                <div class="screenshot-placeholder">
+                                    <p>Game Tracking</p>
+                                </div>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Track Your Games</h3>
+                                <p>Monitor wins, losses, and performance across all sessions with detailed game logging and statistical analysis.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item feature-right">
+                            <div class="feature-content">
+                                <h3>Improve Strategy</h3>
+                                <p>Access advanced analytics and hand analysis tools to identify patterns, weaknesses, and opportunities for improvement in your game.</p>
+                            </div>
+                            <div class="feature-screenshot">
+                                <div class="screenshot-placeholder">
+                                    <p>Strategy Hub</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item feature-left">
+                            <div class="feature-screenshot">
+                                <div class="screenshot-placeholder">
+                                    <p>Statistics</p>
+                                </div>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Detailed Statistics</h3>
+                                <p>View comprehensive statistics and trends over time with charts, graphs, and detailed breakdowns of your poker performance.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item feature-right">
+                            <div class="feature-content">
+                                <h3>Connect & Compete</h3>
+                                <p>Join the poker community, share your achievements, compare stats with friends, and participate in challenges and leaderboards.</p>
+                            </div>
+                            <div class="feature-screenshot">
+                                <div class="screenshot-placeholder">
+                                    <p>Social Features</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
