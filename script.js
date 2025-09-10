@@ -32,13 +32,47 @@ window.submitToWaitlist = async function(email) {
     }
 };
 
-// Enhanced scroll-triggered animation for features section
+// Enhanced scroll-triggered animation and header color changing
 const featuresSection = document.querySelector('.features-section');
 const featuresTrigger = document.querySelector('.features-trigger');
 const heroSection = document.querySelector('.hero');
+const aboutSection = document.querySelector('.about-section');
 const header = document.querySelector('.header');
 let lastScrollY = window.scrollY;
 let isScrollingDown = true;
+
+// Define section colors to match exact section backgrounds
+const sectionColors = {
+    'hero': 'transparent',
+    'features': '#ffd13f', // var(--yellow)
+    'about': '#3c315b', // var(--midnightPurple)
+    'footer': '#161618' // var(--dark1)
+};
+
+// Get current visible section
+function getCurrentSection() {
+    const sections = [
+        { name: 'hero', element: heroSection },
+        { name: 'features', element: featuresSection },
+        { name: 'about', element: aboutSection },
+        { name: 'footer', element: document.querySelector('.footer') }
+    ];
+    
+    const windowHeight = window.innerHeight;
+    const headerHeight = header.offsetHeight;
+    
+    for (const section of sections) {
+        if (section.element) {
+            const rect = section.element.getBoundingClientRect();
+            // Check if section is covering the header area
+            if (rect.top <= headerHeight && rect.bottom >= headerHeight) {
+                return section.name;
+            }
+        }
+    }
+    
+    return 'hero'; // Default
+}
 
 // Smooth scroll progress tracking
 function handleScroll() {
@@ -46,42 +80,49 @@ function handleScroll() {
     isScrollingDown = currentScrollY > lastScrollY;
     lastScrollY = currentScrollY;
     
-    const triggerRect = featuresTrigger.getBoundingClientRect();
-    const windowHeight = window.innerHeight;
-    const headerRect = header.getBoundingClientRect();
-    const headerBottom = headerRect.bottom;
+    // Get current section and update header color
+    const currentSection = getCurrentSection();
+    const headerColor = sectionColors[currentSection];
     
-    // Calculate scroll progress through the trigger area
-    const scrollProgress = Math.max(0, Math.min(1, 
-        (windowHeight - triggerRect.top) / windowHeight
-    ));
+    // Remove all section classes
+    header.classList.remove('hero-active', 'features-filling', 'about-active', 'footer-active');
     
-    // Calculate when features section top reaches header bottom
-    const featuresContentRect = document.querySelector('.features-content').getBoundingClientRect();
-    const fillProgress = Math.max(0, Math.min(1,
-        (headerBottom - featuresContentRect.top) / headerBottom
-    ));
-    
-    // Fade out hero section as features section slides up
-    if (scrollProgress > 0) {
-        heroSection.style.opacity = Math.max(0, 1 - scrollProgress * 1.5);
-        heroSection.style.transform = `translateY(${-scrollProgress * 2}rem)`;
+    // Add current section class and set color
+    if (currentSection !== 'hero') {
+        header.classList.add(`${currentSection}-active`);
+        header.style.setProperty('--fill-height', '100%');
+        header.style.setProperty('--header-bg-color', headerColor);
     } else {
-        heroSection.style.opacity = 1;
-        heroSection.style.transform = 'translateY(2rem)';
+        header.style.setProperty('--fill-height', '0%');
+        header.style.setProperty('--header-bg-color', 'transparent');
     }
     
-    // Control features section activation and header fill together
-    if (scrollProgress > 0.15) {
-        featuresSection.classList.add('active');
-        featuresSection.classList.remove('scrolled-back');
-        header.classList.add('features-filling');
-        header.style.setProperty('--fill-height', '100%');
-    } else if (scrollProgress < 0.05 && !isScrollingDown) {
-        featuresSection.classList.remove('active');
-        featuresSection.classList.add('scrolled-back');
-        header.classList.remove('features-filling');
-        header.style.setProperty('--fill-height', '0%');
+    // Handle features section specific animation
+    if (featuresTrigger) {
+        const triggerRect = featuresTrigger.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        
+        const scrollProgress = Math.max(0, Math.min(1, 
+            (windowHeight - triggerRect.top) / windowHeight
+        ));
+        
+        // Fade out hero section as features section slides up
+        if (scrollProgress > 0) {
+            heroSection.style.opacity = Math.max(0, 1 - scrollProgress * 1.5);
+            heroSection.style.transform = `translateY(${-scrollProgress * 2}rem)`;
+        } else {
+            heroSection.style.opacity = 1;
+            heroSection.style.transform = 'translateY(2rem)';
+        }
+        
+        // Control features section activation
+        if (scrollProgress > 0.3) {
+            featuresSection.classList.add('active');
+            featuresSection.classList.remove('scrolled-back');
+        } else if (scrollProgress < 0.1) {
+            featuresSection.classList.remove('active');
+            featuresSection.classList.add('scrolled-back');
+        }
     }
 }
 
@@ -201,5 +242,89 @@ mobileNav.addEventListener('click', function(e) {
         hamburgerMenu.classList.remove('active');
         mobileNav.classList.remove('active');
         document.body.style.overflow = '';
+    }
+});
+
+// Scroll animations for new sections
+function animateOnScroll() {
+    const sections = document.querySelectorAll('.about-section');
+    const stats = document.querySelectorAll('.stat-card');
+    const aboutFeatures = document.querySelectorAll('.about-feature');
+    
+    const animateElements = (elements, className = 'animate-in') => {
+        elements.forEach((element, index) => {
+            const rect = element.getBoundingClientRect();
+            const isVisible = rect.top < window.innerHeight * 0.8;
+            
+            if (isVisible) {
+                setTimeout(() => {
+                    element.classList.add(className);
+                }, index * 150);
+            }
+        });
+    };
+    
+    // Animate sections
+    sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight * 0.8;
+        
+        if (isVisible && !section.classList.contains('section-visible')) {
+            section.classList.add('section-visible');
+        }
+    });
+    
+    // Animate individual elements
+    animateElements(stats, 'stat-animate');
+    animateElements(aboutFeatures, 'feature-animate');
+}
+
+// Counter animation for stats
+function animateCounters() {
+    const counters = document.querySelectorAll('.stat-number');
+    const duration = 2000; // 2 seconds
+    
+    counters.forEach(counter => {
+        const target = counter.textContent.replace(/\D/g, '');
+        const suffix = counter.textContent.replace(/[0-9]/g, '');
+        
+        if (target && !counter.hasAnimated) {
+            counter.hasAnimated = true;
+            let current = 0;
+            const increment = target / (duration / 16);
+            
+            const updateCounter = () => {
+                current += increment;
+                if (current < target) {
+                    counter.textContent = Math.floor(current) + suffix;
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    counter.textContent = target + suffix;
+                }
+            };
+            
+            updateCounter();
+        }
+    });
+}
+
+// Initialize scroll animations
+window.addEventListener('scroll', animateOnScroll, { passive: true });
+window.addEventListener('load', () => {
+    animateOnScroll();
+    
+    // Animate counters when stats section is visible
+    const statsSection = document.querySelector('.stats-grid');
+    const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounters();
+                statsObserver.unobserve(entry.target);
+            }
+        });
+    });
+    
+    if (statsSection) {
+        statsObserver.observe(statsSection);
     }
 });
