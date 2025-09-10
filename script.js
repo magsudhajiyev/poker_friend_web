@@ -2,8 +2,15 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-// Vercel Analytics
-import { inject } from 'https://cdn.skypack.dev/@vercel/analytics';
+// Vercel Analytics - Load dynamically to avoid blocking
+async function loadVercelAnalytics() {
+    try {
+        const { inject } = await import('https://cdn.skypack.dev/@vercel/analytics');
+        inject();
+    } catch (error) {
+        console.log('Vercel Analytics not loaded:', error.message);
+    }
+}
 
 // Firebase configuration - Replace with your config
 const firebaseConfig = {
@@ -22,7 +29,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // Initialize Vercel Analytics
-inject();
+loadVercelAnalytics();
 
 // Firebase database functions
 window.submitToWaitlist = async function(email) {
@@ -67,20 +74,23 @@ function getCurrentSection() {
         { name: 'footer', element: document.querySelector('.footer') }
     ];
     
-    const windowHeight = window.innerHeight;
-    const headerHeight = header.offsetHeight;
+    const headerHeight = header ? header.offsetHeight : 80;
     
+    // Check which section is currently at the header position
     for (const section of sections) {
         if (section.element) {
             const rect = section.element.getBoundingClientRect();
             // Check if section is covering the header area
             if (rect.top <= headerHeight && rect.bottom >= headerHeight) {
+                console.log('Current section:', section.name); // Debug log
                 return section.name;
             }
         }
     }
     
-    return 'hero'; // Default
+    // If no section is covering header, we're probably at the top
+    console.log('Current section: hero (default)'); // Debug log
+    return 'hero';
 }
 
 // Smooth scroll progress tracking
@@ -93,17 +103,23 @@ function handleScroll() {
     const currentSection = getCurrentSection();
     const headerColor = sectionColors[currentSection];
     
-    // Remove all section classes
-    header.classList.remove('hero-active', 'features-filling', 'about-active', 'contact-active', 'footer-active');
+    console.log('Header color for', currentSection, ':', headerColor); // Debug log
     
-    // Add current section class and set color
-    if (currentSection !== 'hero') {
-        header.classList.add(`${currentSection}-active`);
-        header.style.setProperty('--fill-height', '100%');
-        header.style.setProperty('--header-bg-color', headerColor);
-    } else {
-        header.style.setProperty('--fill-height', '0%');
-        header.style.setProperty('--header-bg-color', 'transparent');
+    // Remove all section classes
+    if (header) {
+        header.classList.remove('hero-active', 'features-filling', 'about-active', 'contact-active', 'footer-active');
+        
+        // Add current section class and set color
+        if (currentSection !== 'hero') {
+            header.classList.add(`${currentSection}-active`);
+            header.style.setProperty('--fill-height', '100%');
+            header.style.setProperty('--header-bg-color', headerColor);
+            console.log('Setting header color to:', headerColor); // Debug log
+        } else {
+            header.style.setProperty('--fill-height', '0%');
+            header.style.setProperty('--header-bg-color', 'transparent');
+            console.log('Setting header to transparent'); // Debug log
+        }
     }
     
     // Handle features section specific animation
@@ -135,16 +151,26 @@ function handleScroll() {
     }
 }
 
-// Intersection Observer for initial trigger
+// Initialize when DOM is ready
+function initializeHeaderColors() {
+    // Always enable scroll handling for header colors
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Set initial header color on page load
+    setTimeout(() => {
+        handleScroll();
+    }, 100); // Small delay to ensure DOM is fully ready
+}
+
+// Initialize immediately and also on DOM ready
+initializeHeaderColors();
+document.addEventListener('DOMContentLoaded', initializeHeaderColors);
+
+// Intersection Observer for features section animation only
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            window.addEventListener('scroll', handleScroll, { passive: true });
-        } else if (entry.boundingClientRect.top > 0) {
-            window.removeEventListener('scroll', handleScroll);
+        if (!entry.isIntersecting && entry.boundingClientRect.top > 0) {
             featuresSection.classList.remove('active');
-            header.classList.remove('features-filling');
-            header.style.setProperty('--fill-height', '0%');
             heroSection.style.opacity = 1;
             heroSection.style.transform = 'translateY(2rem)';
         }
@@ -153,7 +179,9 @@ const observer = new IntersectionObserver((entries) => {
     threshold: [0, 0.1, 0.5, 1]
 });
 
-observer.observe(featuresTrigger);
+if (featuresTrigger) {
+    observer.observe(featuresTrigger);
+}
 
 // Handle Features navigation link
 document.addEventListener('click', function(e) {
