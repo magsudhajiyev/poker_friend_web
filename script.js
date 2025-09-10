@@ -2,6 +2,9 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
+// Vercel Analytics
+import { inject } from 'https://cdn.skypack.dev/@vercel/analytics';
+
 // Firebase configuration - Replace with your config
 const firebaseConfig = {
     apiKey: "AIzaSyDTw_1lOHmIl_gDY3ex-N_l8NLxRzy6AtA",
@@ -17,6 +20,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+// Initialize Vercel Analytics
+inject();
 
 // Firebase database functions
 window.submitToWaitlist = async function(email) {
