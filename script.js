@@ -37,6 +37,7 @@ const featuresSection = document.querySelector('.features-section');
 const featuresTrigger = document.querySelector('.features-trigger');
 const heroSection = document.querySelector('.hero');
 const aboutSection = document.querySelector('.about-section');
+const contactSection = document.querySelector('.contact-section');
 const header = document.querySelector('.header');
 let lastScrollY = window.scrollY;
 let isScrollingDown = true;
@@ -46,6 +47,7 @@ const sectionColors = {
     'hero': 'transparent',
     'features': '#ffd13f', // var(--yellow)
     'about': '#3c315b', // var(--midnightPurple)
+    'contact': '#2ec08b', // var(--green)
     'footer': '#161618' // var(--dark1)
 };
 
@@ -55,6 +57,7 @@ function getCurrentSection() {
         { name: 'hero', element: heroSection },
         { name: 'features', element: featuresSection },
         { name: 'about', element: aboutSection },
+        { name: 'contact', element: contactSection },
         { name: 'footer', element: document.querySelector('.footer') }
     ];
     
@@ -85,7 +88,7 @@ function handleScroll() {
     const headerColor = sectionColors[currentSection];
     
     // Remove all section classes
-    header.classList.remove('hero-active', 'features-filling', 'about-active', 'footer-active');
+    header.classList.remove('hero-active', 'features-filling', 'about-active', 'contact-active', 'footer-active');
     
     // Add current section class and set color
     if (currentSection !== 'hero') {
@@ -328,3 +331,58 @@ window.addEventListener('load', () => {
         statsObserver.observe(statsSection);
     }
 });
+
+// Contact form submission functionality
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+    contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(contactForm);
+        const name = formData.get('name').trim();
+        const email = formData.get('email').trim();
+        const message = formData.get('message').trim();
+        
+        if (!name || !email || !message) {
+            return;
+        }
+        
+        const submitButton = contactForm.querySelector('.contact-submit-button');
+        const originalText = submitButton.innerHTML;
+        
+        // Disable form during submission
+        submitButton.disabled = true;
+        submitButton.classList.add('loading');
+        
+        try {
+            // Simulate form submission (replace with actual endpoint)
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Show success state
+            submitButton.classList.remove('loading');
+            submitButton.classList.add('success');
+            
+            // Replace form with thank you message
+            setTimeout(() => {
+                contactForm.innerHTML = `
+                    <div style="text-align: center; padding: 2rem 0;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">✓</div>
+                        <h3 style="color: var(--dark1); margin-bottom: 1rem; font-size: 1.5rem;">Thank you for your message!</h3>
+                        <p style="color: var(--dark3); margin: 0; font-size: 1rem;">We will get back to you shortly.</p>
+                    </div>
+                `;
+            }, 500);
+            
+        } catch (error) {
+            console.error('Contact form submission error:', error);
+            
+            // Reset button on error
+            submitButton.disabled = false;
+            submitButton.classList.remove('loading');
+            submitButton.innerHTML = originalText;
+            
+            // Show error message (you could add a more sophisticated error display)
+            alert('Something went wrong. Please try again.');
+        }
+    });
+}
