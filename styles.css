@@ -398,7 +398,7 @@ body {
 /* Hero Section */
 .hero {
     padding: var(--spacingL) var(--spacingL);
-    min-height: 75vh;
+    min-height: 85vh;
     display: flex;
     align-items: center;
     margin-top: 2rem;
@@ -448,6 +448,7 @@ body {
 /* Waitlist Form */
 .waitlist-form {
     display: flex;
+    align-items: center;
     gap: var(--spacingXS);
     margin-bottom: var(--spacingS);
     max-width: 500px;
@@ -591,6 +592,16 @@ body {
     align-items: center;
 }
 
+.phone-mockup-image {
+    width: 280px;
+    height: auto;
+    max-height: 560px;
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    object-fit: contain;
+    background: transparent;
+}
+
 .phone-placeholder {
     width: 280px;
     height: 560px;
@@ -678,6 +689,11 @@ body {
     
     .email-input {
         margin-bottom: var(--spacingS);
+    }
+    
+    .phone-mockup-image {
+        width: 200px;
+        max-height: 400px;
     }
     
     .phone-placeholder {
@@ -888,6 +904,7 @@ body {
     padding: var(--spacingXXL) 0;
     position: relative;
     overflow: hidden;
+    margin-top: -1px; /* Prevent gap from previous section */
 }
 
 .about-section::before {
@@ -1436,6 +1453,8 @@ body {
     min-height: 100vh;
     padding: var(--spacingXXL) 0;
     overflow: hidden;
+    margin-bottom: -1px; /* Prevent gap between sections */
+    background-color: var(--yellow); /* Ensure yellow background */
 }
 
 .features-trigger {
@@ -1451,6 +1470,8 @@ body {
     min-height: 100vh;
     z-index: 100;
     overflow-x: hidden;
+    transform: translateY(100%);
+    transition: transform 0.8s var(--easeOutCubic);
 }
 
 .features-section.active .features-content {
@@ -1773,4 +1794,39 @@ body {
     .contact-text .section-title {
         font-size: var(--textXL);
     }
+}
+
+/* ===== HIGHLIGHT EFFECT ===== */
+.highlight-text {
+    position: relative;
+    display: inline;
+    padding: 2px 4px;
+    background: transparent;
+}
+
+.highlight-text::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--yellow);
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 1.5s ease-out, opacity 0.3s ease-out;
+    z-index: -1;
+    border-radius: 3px;
+}
+
+.highlight-text.highlighted::after {
+    transform: scaleX(1);
+    opacity: 0.7;
+}
+
+/* Ensure text stays visible */
+.highlight-text.highlighted {
+    position: relative;
+    z-index: 2;
 }

@@ -136,9 +136,23 @@ function handleScroll() {
         if (scrollProgress > 0.3) {
             featuresSection.classList.add('active');
             featuresSection.classList.remove('scrolled-back');
+            
+            // Trigger highlight effect when features section is active
+            setTimeout(() => {
+                const highlightElement = document.querySelector('[data-highlight="gesture-based"]');
+                if (highlightElement && !highlightElement.classList.contains('highlighted')) {
+                    highlightElement.classList.add('highlighted');
+                }
+            }, 800); // Delay for better timing with section animation
         } else if (scrollProgress < 0.1) {
             featuresSection.classList.remove('active');
             featuresSection.classList.add('scrolled-back');
+            
+            // Remove highlight when scrolling back
+            const highlightElement = document.querySelector('[data-highlight="gesture-based"]');
+            if (highlightElement) {
+                highlightElement.classList.remove('highlighted');
+            }
         }
     }
 }
@@ -157,6 +171,7 @@ function initializeHeaderColors() {
 // Initialize immediately and also on DOM ready
 initializeHeaderColors();
 document.addEventListener('DOMContentLoaded', initializeHeaderColors);
+
 
 // Intersection Observer for features section animation only
 const observer = new IntersectionObserver((entries) => {
