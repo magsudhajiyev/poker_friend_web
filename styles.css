@@ -1596,15 +1596,15 @@ body {
 /* Features Section with Scroll Animation */
 .features-section {
     position: relative;
-    min-height: 100vh;
-    padding: var(--spacingXXL) 0;
+    min-height: 60vh;
+    padding: var(--spacingM) 0;
     overflow: hidden;
     margin-bottom: -1px; /* Prevent gap between sections */
     background-color: var(--yellow); /* Ensure yellow background */
 }
 
 .features-trigger {
-    height: 50vh;
+    height: 20vh;
     width: 100%;
 }
 
@@ -1612,8 +1612,8 @@ body {
     position: relative;
     width: 100%;
     background-color: var(--yellow);
-    padding: var(--spacingXXL) 0;
-    min-height: 100vh;
+    padding: var(--spacingM) 0;
+    min-height: 50vh;
     z-index: 100;
     overflow-x: hidden;
     transform: translateY(100%);
@@ -1632,8 +1632,8 @@ body {
 
 .features-container {
     width: 100%;
-    min-height: 100vh;
-    padding: var(--spacingXL) var(--spacingL);
+    min-height: 40vh;
+    padding: var(--spacingM) var(--spacingL);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1643,8 +1643,8 @@ body {
 .app-features {
     display: flex;
     flex-direction: column;
-    gap: var(--spacingXXL);
-    padding: var(--spacingL) 0;
+    gap: var(--spacingL);
+    padding: var(--spacingS) 0;
 }
 
 .feature-item {
