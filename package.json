@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "dev": "live-server --port=3000 --open=/",
-    "build": "mkdir -p public && cp index.html styles.css script.js logo.png public/",
+    "build": "mkdir -p public && cp index.html styles.css script.js logo.png public/ && cp -r assets public/",
     "serve": "live-server --port=8080"
   },
   "keywords": [
