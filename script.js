@@ -28,8 +28,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Initialize Vercel Analytics
-loadVercelAnalytics();
 
 // Firebase database functions
 window.submitToWaitlist = async function(email) {
@@ -82,14 +80,12 @@ function getCurrentSection() {
             const rect = section.element.getBoundingClientRect();
             // Check if section is covering the header area
             if (rect.top <= headerHeight && rect.bottom >= headerHeight) {
-                console.log('Current section:', section.name); // Debug log
                 return section.name;
             }
         }
     }
     
     // If no section is covering header, we're probably at the top
-    console.log('Current section: hero (default)'); // Debug log
     return 'hero';
 }
 
@@ -103,8 +99,6 @@ function handleScroll() {
     const currentSection = getCurrentSection();
     const headerColor = sectionColors[currentSection];
     
-    console.log('Header color for', currentSection, ':', headerColor); // Debug log
-    
     // Remove all section classes
     if (header) {
         header.classList.remove('hero-active', 'features-filling', 'about-active', 'contact-active', 'footer-active');
@@ -114,11 +108,9 @@ function handleScroll() {
             header.classList.add(`${currentSection}-active`);
             header.style.setProperty('--fill-height', '100%');
             header.style.setProperty('--header-bg-color', headerColor);
-            console.log('Setting header color to:', headerColor); // Debug log
         } else {
             header.style.setProperty('--fill-height', '0%');
             header.style.setProperty('--header-bg-color', 'transparent');
-            console.log('Setting header to transparent'); // Debug log
         }
     }
     
