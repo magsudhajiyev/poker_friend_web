@@ -106,6 +106,8 @@ body {
     color: var(--themeTextColor);
     line-height: 1.6;
     overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
 }
 
 /* Header Styles */
@@ -633,15 +635,58 @@ body {
     }
 }
 
-/* Mobile Styles */
-@media (max-width: 768px) {
+/* Mobile Styles - High Priority */
+@media screen and (max-width: 768px) {
+    /* Prevent horizontal overflow */
+    * {
+        max-width: 100vw;
+        box-sizing: border-box;
+    }
+    
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100vw;
+    }
+    
+    /* Force mobile layout for about and footer sections */
+    .about-section .about-content {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    
+    .footer .footer-content {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
     .header {
+        position: sticky !important;
+        top: 0 !important;
         padding: var(--spacingXXS) var(--spacingS) 0;
+        z-index: 200 !important;
+        background-color: var(--themeBgColor);
+        overflow: hidden;
+    }
+    
+    .header::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: var(--fill-height, 0%);
+        background: var(--header-bg-color, var(--yellow));
+        transition: height 0.3s var(--easeOutCubic);
+        z-index: -1;
     }
     
     .header-container {
-        padding: var(--spacingXS) 0;
+        padding: var(--spacingXS) var(--spacingS);
         min-height: 3.5rem;
+        width: 100%;
+        max-width: 100vw;
     }
     
     .desktop-nav {
@@ -654,11 +699,26 @@ body {
     
     .hamburger-menu {
         display: flex !important;
+        position: relative;
+        z-index: 300;
+    }
+    
+    /* Ensure mobile nav doesn't interfere with header */
+    .mobile-nav {
+        z-index: 250;
     }
     
     .hero {
         padding: var(--spacingL) var(--spacingS);
         min-height: auto;
+        width: 100%;
+        max-width: 100vw;
+    }
+    
+    .hero-container {
+        max-width: 100%;
+        padding: 0;
+        width: 100%;
     }
     
     .hero-content {
@@ -684,11 +744,19 @@ body {
     .waitlist-form {
         flex-direction: column;
         max-width: 100%;
+        width: 100%;
         gap: var(--spacingS);
+        align-items: stretch;
     }
     
     .email-input {
         margin-bottom: var(--spacingS);
+        width: 100%;
+    }
+    
+    .waitlist-button {
+        width: 100%;
+        justify-content: center;
     }
     
     .phone-mockup-image {
@@ -702,14 +770,23 @@ body {
     }
     
     /* Features Section Mobile - Stack Vertically */
+    .features-section {
+        width: 100%;
+        max-width: 100vw;
+    }
+    
     .features-container {
         padding: 0 var(--spacingS);
+        width: 100%;
+        max-width: 100%;
     }
     
     .app-features {
         display: flex;
         flex-direction: column;
         gap: var(--spacingXL);
+        width: 100%;
+        max-width: 100%;
     }
     
     .feature-item {
@@ -718,6 +795,8 @@ body {
         text-align: center;
         gap: var(--spacingM);
         padding: var(--spacingL) var(--spacingS);
+        width: 100%;
+        max-width: 100%;
     }
     
     .feature-left,
@@ -744,11 +823,34 @@ body {
     /* About Section Mobile */
     .about-section {
         padding: var(--spacingXL) 0;
+        width: 100%;
+        max-width: 100vw;
+    }
+    
+    .about-container {
+        padding: 0 var(--spacingS);
+        max-width: 100%;
+        width: 100%;
     }
     
     .about-content {
-        grid-template-columns: 1fr;
+        display: flex !important;
+        flex-direction: column !important;
         gap: var(--spacingL);
+        width: 100%;
+        grid-template-columns: unset !important;
+    }
+    
+    .about-text {
+        width: 100%;
+        text-align: center;
+        order: 1;
+    }
+    
+    .stats-section {
+        width: 100%;
+        margin-top: var(--spacingL);
+        order: 2; /* Ensure stats come after text */
     }
     
     .section-title {
@@ -762,9 +864,16 @@ body {
     }
     
     .stats-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: var(--spacingS);
+        grid-template-columns: 1fr !important;
+        gap: var(--spacingM);
         margin-top: var(--spacingL);
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .about-section .stats-grid {
+        grid-template-columns: 1fr !important;
+        display: grid !important;
     }
     
     .stat-card {
@@ -833,18 +942,50 @@ body {
     /* Footer Mobile */
     .footer {
         padding: var(--spacingXL) 0 var(--spacingM) 0;
+        width: 100%;
+        max-width: 100vw;
+    }
+    
+    .footer-container {
+        padding: var(--spacingL) var(--spacingS);
+        max-width: 100%;
+        width: 100%;
     }
     
     .footer-content {
-        grid-template-columns: 1fr;
+        display: flex !important;
+        flex-direction: column !important;
         gap: var(--spacingL);
         text-align: center;
+        width: 100%;
+        grid-template-columns: unset !important;
+    }
+    
+    .footer-brand {
+        order: 1;
+        margin-bottom: var(--spacingL);
+        width: 100%;
     }
     
     .footer-links {
-        grid-template-columns: 1fr;
+        order: 2;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
         gap: var(--spacingL);
+        width: 100%;
+        justify-self: center;
     }
+    
+    .footer-section {
+        text-align: center;
+        width: 100%;
+    }
+    
+    .social-links {
+        justify-content: center;
+        margin-top: var(--spacingL);
+    }
+    
     
     .footer-section {
         text-align: center;
@@ -877,6 +1018,11 @@ body {
     .stats-grid {
         grid-template-columns: 1fr;
         gap: var(--spacingM);
+    }
+    
+    .footer-links {
+        grid-template-columns: 1fr !important;
+        gap: var(--spacingL);
     }
     
     .pricing-grid {
@@ -1782,17 +1928,44 @@ body {
 
 /* Contact Section Responsive */
 @media (max-width: 768px) {
+    .contact-section {
+        width: 100%;
+        max-width: 100vw;
+    }
+    
+    .contact-container {
+        padding: 0 var(--spacingS);
+        max-width: 100%;
+        width: 100%;
+    }
+    
     .contact-content {
         grid-template-columns: 1fr;
         gap: var(--spacingXL);
+        width: 100%;
+    }
+    
+    .contact-text {
+        text-align: center;
+        width: 100%;
     }
     
     .contact-form-container {
         padding: var(--spacingL);
+        width: 100%;
     }
     
     .contact-text .section-title {
         font-size: var(--textXL);
+    }
+    
+    .form-input,
+    .form-textarea {
+        width: 100%;
+    }
+    
+    .contact-submit-button {
+        width: 100%;
     }
 }
 
@@ -1829,4 +2002,87 @@ body {
 .highlight-text.highlighted {
     position: relative;
     z-index: 2;
+}
+
+/* FINAL MOBILE OVERRIDES - HIGHEST PRECEDENCE */
+@media screen and (max-width: 768px) {
+    /* Force single column stats grid */
+    .stats-grid,
+    .about-section .stats-grid,
+    .stats-section .stats-grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        grid-template-rows: auto !important;
+        gap: var(--spacingM) !important;
+        width: 100% !important;
+    }
+    
+    /* Force header to be FIXED on mobile */
+    .header {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: 999 !important;
+        background-color: var(--themeBgColor) !important;
+        padding: var(--spacingXXS) var(--spacingS) 0 !important;
+        overflow: hidden !important;
+    }
+    
+    /* Add padding to body to account for fixed header */
+    body {
+        padding-top: 70px !important;
+    }
+    
+    /* Ensure header animation works */
+    .header::after {
+        content: '' !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: var(--fill-height, 0%) !important;
+        background: var(--header-bg-color, transparent) !important;
+        transition: height 0.3s ease-out !important;
+        z-index: -1 !important;
+    }
+    
+    /* Force header content to stay visible */
+    .header-container {
+        position: relative !important;
+        z-index: 1000 !important;
+        background: transparent !important;
+        padding: var(--spacingXS) var(--spacingS) !important;
+        min-height: 3.5rem !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+    }
+    
+    .logo-container,
+    .hamburger-menu {
+        position: relative !important;
+        z-index: 1001 !important;
+        background: transparent !important;
+    }
+    
+    /* Ensure logo and hamburger are always visible */
+    .logo-container .logo-link,
+    .hamburger-menu {
+        color: var(--white) !important;
+        z-index: 1001 !important;
+    }
+    
+    /* Make phone mockup bigger on mobile */
+    .phone-mockup-image {
+        width: 280px !important;
+        max-width: 280px !important;
+        max-height: 500px !important;
+    }
+    
+    .phone-mockup {
+        max-width: 300px !important;
+    }
 }
