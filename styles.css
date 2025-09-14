@@ -820,6 +820,12 @@ body {
         margin: 0 auto var(--spacingM) auto;
     }
     
+    .feature-screenshot video {
+        width: 280px;
+        height: 350px;
+        margin: 0 auto var(--spacingM) auto;
+    }
+    
     /* About Section Mobile */
     .about-section {
         padding: var(--spacingXL) 0;
@@ -1011,6 +1017,11 @@ body {
     }
     
     .screenshot-placeholder {
+        width: 260px;
+        height: 320px;
+    }
+    
+    .feature-screenshot video {
         width: 260px;
         height: 320px;
     }
@@ -1720,6 +1731,17 @@ body {
     font-weight: 600;
     z-index: 1;
     position: relative;
+}
+
+/* Video styling to match placeholder dimensions */
+.feature-screenshot video {
+    width: 300px;
+    height: 500px;
+    border-radius: var(--borderRadiusXL);
+    object-fit: cover;
+    margin-top: 5rem;
+    background: transparent;
+    border: none;
 }
 
 .feature-content {
