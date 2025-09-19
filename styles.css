@@ -1614,6 +1614,34 @@ body {
     background-color: var(--yellow); /* Ensure yellow background */
 }
 
+/* Gesture List Styles */
+.gesture-list {
+    margin-top: 20px;
+    padding-left: 0;
+    list-style: none;
+}
+
+.gesture-item {
+    padding: 8px 0;
+    font-size: 16px;
+    color: var(--dark9);
+    opacity: 0;
+    transform: translateY(20px);
+    position: relative;
+}
+
+.gesture-item:before {
+    content: '→';
+    color: var(--terracottaRed);
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.gesture-item strong {
+    color: var(--dark1);
+}
+
+
 .features-trigger {
     height: 20vh;
     width: 100%;
@@ -1740,7 +1768,7 @@ body {
     border-radius: var(--borderRadiusXL);
     object-fit: cover;
     margin-top: 5rem;
-    background: transparent;
+    background: var(--yellow);
     border: none;
 }
 
@@ -2107,4 +2135,60 @@ body {
     .phone-mockup {
         max-width: 300px !important;
     }
+
+    /* Mobile Gesture Feature Specific Styles */
+    .gesture-feature {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    .gesture-feature h3 {
+        display: block !important;
+        visibility: visible !important;
+        font-size: 18px !important;
+        color: var(--dark1) !important;
+        margin-bottom: 12px !important;
+        padding: 0 16px !important;
+    }
+
+    .gesture-feature p {
+        display: block !important;
+        visibility: visible !important;
+        font-size: 14px !important;
+        color: var(--dark9) !important;
+        line-height: 1.5 !important;
+        margin-bottom: 16px !important;
+        padding: 0 16px !important;
+    }
+
+    .gesture-feature .gesture-list {
+        display: block !important;
+        visibility: visible !important;
+        list-style: none !important;
+        margin: 20px 0 !important;
+        padding: 0 16px !important;
+    }
+
+    .gesture-feature .gesture-item {
+        display: block !important;
+        visibility: visible !important;
+        padding: 8px 0 !important;
+        font-size: 14px !important;
+        color: var(--dark9) !important;
+        line-height: 1.4 !important;
+    }
+
+    .gesture-feature .gesture-item:before {
+        content: '→' !important;
+        color: var(--terracottaRed) !important;
+        margin-right: 8px !important;
+        font-weight: bold !important;
+    }
+
+    .gesture-feature .gesture-item strong {
+        color: var(--dark1) !important;
+        font-weight: 600 !important;
+    }
+
 }

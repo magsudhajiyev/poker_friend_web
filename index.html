@@ -30,6 +30,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 <body>
     <header class="header">
@@ -138,9 +139,16 @@
                                     Your browser does not support the video tag.
                                 </video>
                             </div>
-                            <div class="feature-content">
+                            <div class="feature-content gesture-feature">
                                 <h3>Gesture-Based Hand Logging</h3>
-                                <p>Log your hands during the session with easy and intuitive <span class="highlight-text" data-highlight="gesture-based">gesture based</span> input. Just master the gestures and Poker Friend will take care of the rest!</p>
+                                <p>Log your hands during the session with easy and intuitive <span class="highlight-text" data-highlight="gesture-based">gesture based</span> input. Just master the gestures and Poker Friend will take care of the rest! Poker Friend will adjust the button position when seat is open, he will also calculate side pots, detect all in hands. You don't have to worry about anything. Just keep logging!</p>
+                                <ul class="gesture-list">
+                                    <li class="gesture-item">Single tap for <strong>bet</strong></li>
+                                    <li class="gesture-item">Double tap for <strong>check</strong></li>
+                                    <li class="gesture-item">Line for <strong>fold</strong></li>
+                                    <li class="gesture-item">L for <strong>raise</strong></li>
+                                    <li class="gesture-item">O (circle) for <strong>call</strong></li>
+                                </ul>
                             </div>
                         </div>
                         

@@ -171,6 +171,7 @@ function initializeHeaderColors() {
 // Initialize immediately and also on DOM ready
 initializeHeaderColors();
 document.addEventListener('DOMContentLoaded', initializeHeaderColors);
+document.addEventListener('DOMContentLoaded', initializeGestureAnimations);
 
 
 // Intersection Observer for features section animation only
@@ -426,4 +427,48 @@ if (contactForm) {
             alert('Something went wrong. Please try again.');
         }
     });
+}
+
+// GSAP Animation for Gesture List
+function initializeGestureAnimations() {
+    // Check if GSAP is available
+    if (typeof gsap === 'undefined') {
+        console.warn('GSAP not loaded, skipping gesture animations');
+        return;
+    }
+
+    // Create intersection observer for gesture list
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const gestureItems = entry.target.querySelectorAll('.gesture-item');
+
+                // Mobile-optimized animation with reduced motion for better performance
+                const isMobile = window.innerWidth <= 768;
+
+                gsap.to(gestureItems, {
+                    opacity: 1,
+                    y: 0,
+                    duration: isMobile ? 0.4 : 0.6,
+                    ease: "power2.out",
+                    stagger: isMobile ? 0.1 : 0.15,
+                    // Reduce GPU usage on mobile
+                    force3D: !isMobile
+                });
+
+                // Unobserve after animation
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        // More aggressive threshold for mobile to trigger earlier
+        threshold: window.innerWidth <= 768 ? 0.3 : 0.5,
+        rootMargin: window.innerWidth <= 768 ? '50px' : '0px'
+    });
+
+    // Observe the gesture list
+    const gestureList = document.querySelector('.gesture-list');
+    if (gestureList) {
+        observer.observe(gestureList);
+    }
 }
