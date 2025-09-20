@@ -1772,6 +1772,16 @@ body {
     border: none;
 }
 
+.feature-screenshot img {
+    width: 300px;
+    height: 500px;
+    border-radius: var(--borderRadiusXL);
+    object-fit: cover;
+    margin-top: 5rem;
+    background: var(--yellow);
+    border: none;
+}
+
 .feature-content {
     padding: var(--spacingM);
 }
