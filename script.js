@@ -172,6 +172,7 @@ function initializeHeaderColors() {
 initializeHeaderColors();
 document.addEventListener('DOMContentLoaded', initializeHeaderColors);
 document.addEventListener('DOMContentLoaded', initializeGestureAnimations);
+document.addEventListener('DOMContentLoaded', initializeManyMoreAnimations);
 
 
 // Intersection Observer for features section animation only
@@ -195,16 +196,19 @@ if (featuresTrigger) {
 document.addEventListener('click', function(e) {
     if (e.target.closest('a[href="#features-section"]')) {
         e.preventDefault();
-        // Calculate the scroll position needed to fully activate features section
-        const triggerRect = featuresTrigger.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        // Scroll past the trigger to ensure complete activation and eliminate any gaps
-        const targetScrollY = window.scrollY + triggerRect.top + windowHeight + 100;
-        
-        window.scrollTo({
-            top: targetScrollY,
-            behavior: 'smooth'
-        });
+        // Scroll to the first feature item (gesture-based hand logging)
+        const firstFeatureItem = document.querySelector('.feature-item');
+        if (firstFeatureItem) {
+            const rect = firstFeatureItem.getBoundingClientRect();
+            const headerHeight = header ? header.offsetHeight : 80;
+            // Add some padding above the first feature
+            const targetScrollY = window.scrollY + rect.top - headerHeight - 20;
+
+            window.scrollTo({
+                top: targetScrollY,
+                behavior: 'smooth'
+            });
+        }
     }
 });
 
@@ -470,5 +474,67 @@ function initializeGestureAnimations() {
     const gestureList = document.querySelector('.gesture-list');
     if (gestureList) {
         observer.observe(gestureList);
+    }
+}
+
+// GSAP Animation for Many More Cards
+function initializeManyMoreAnimations() {
+    // Check if GSAP is available
+    if (typeof gsap === 'undefined') {
+        console.warn('GSAP not loaded, skipping many more animations');
+        // Show cards without animation as fallback
+        const moreFeatures = document.querySelectorAll('.more-feature');
+        moreFeatures.forEach(feature => {
+            feature.style.opacity = '1';
+            feature.style.transform = 'translateY(0)';
+        });
+        return;
+    }
+
+    // Ensure cards are visible first, then set animation state
+    const moreFeatures = document.querySelectorAll('.more-feature');
+    if (moreFeatures.length > 0) {
+        // Make sure cards are visible initially
+        moreFeatures.forEach(feature => {
+            feature.style.opacity = '1';
+            feature.style.visibility = 'visible';
+        });
+
+        // Then set GSAP animation state
+        gsap.set(moreFeatures, {
+            opacity: 0,
+            y: 30
+        });
+    }
+
+    // Create intersection observer for many more cards
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const moreFeatures = entry.target.querySelectorAll('.more-feature');
+
+                // Animate each card with staggered delay
+                gsap.to(moreFeatures, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "power2.out",
+                    stagger: 0.15,
+                    force3D: true
+                });
+
+                // Unobserve after animation
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '50px'
+    });
+
+    // Observe the many more features container
+    const manyMoreFeatures = document.querySelector('.many-more-features');
+    if (manyMoreFeatures) {
+        observer.observe(manyMoreFeatures);
     }
 }
