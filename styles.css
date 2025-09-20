@@ -1170,6 +1170,34 @@ body {
     line-height: 1.6;
 }
 
+/* Story Section Styles */
+.story-section {
+    margin-top: var(--spacingXL);
+    width: 100%;
+}
+
+.story-card {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--borderRadiusL);
+    padding: var(--spacingXL);
+    backdrop-filter: blur(10px);
+    text-align: left;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.story-card p {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: var(--spacingM);
+}
+
+.story-card p:last-child {
+    margin-bottom: 0;
+}
+
 .stats-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -2149,6 +2177,23 @@ body {
         grid-template-rows: auto !important;
         gap: var(--spacingM) !important;
         width: 100% !important;
+    }
+
+    /* Move story section to bottom on mobile */
+    .story-section {
+        order: 10 !important;
+        margin-top: var(--spacingXL) !important;
+    }
+
+    .story-card {
+        padding: var(--spacingL) !important;
+        margin: 0 var(--spacingS) !important;
+    }
+
+    .story-card p {
+        font-size: 1rem !important;
+        line-height: 1.6 !important;
+        margin-bottom: var(--spacingS) !important;
     }
     
     /* Force header to be FIXED on mobile */
