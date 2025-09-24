@@ -43,6 +43,22 @@ window.submitToWaitlist = async function(email) {
     }
 };
 
+window.submitContactForm = async function(name, email, message) {
+    try {
+        await addDoc(collection(db, 'contact_submissions'), {
+            name: name,
+            email: email,
+            message: message,
+            timestamp: serverTimestamp(),
+            status: 'new'
+        });
+        return true;
+    } catch (error) {
+        console.error('Error adding contact form submission: ', error);
+        return false;
+    }
+};
+
 // Enhanced scroll-triggered animation and header color changing
 const featuresSection = document.querySelector('.features-section');
 const featuresTrigger = document.querySelector('.features-trigger');
@@ -401,33 +417,37 @@ if (contactForm) {
         submitButton.classList.add('loading');
         
         try {
-            // Simulate form submission (replace with actual endpoint)
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            
-            // Show success state
-            submitButton.classList.remove('loading');
-            submitButton.classList.add('success');
-            
-            // Replace form with thank you message
-            setTimeout(() => {
-                contactForm.innerHTML = `
-                    <div style="text-align: center; padding: 2rem 0;">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">✓</div>
-                        <h3 style="color: var(--dark1); margin-bottom: 1rem; font-size: 1.5rem;">Thank you for your message!</h3>
-                        <p style="color: var(--dark3); margin: 0; font-size: 1rem;">We will get back to you shortly.</p>
-                    </div>
-                `;
-            }, 500);
-            
+            // Submit to Firebase database
+            const success = await window.submitContactForm(name, email, message);
+
+            if (success) {
+                // Show success state
+                submitButton.classList.remove('loading');
+                submitButton.classList.add('success');
+
+                // Replace form with thank you message
+                setTimeout(() => {
+                    contactForm.innerHTML = `
+                        <div style="text-align: center; padding: 2rem 0;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">✓</div>
+                            <h3 style="color: var(--dark1); margin-bottom: 1rem; font-size: 1.5rem;">Thank you for your message!</h3>
+                            <p style="color: var(--dark3); margin: 0; font-size: 1rem;">We will get back to you shortly.</p>
+                        </div>
+                    `;
+                }, 500);
+            } else {
+                throw new Error('Failed to submit contact form');
+            }
+
         } catch (error) {
             console.error('Contact form submission error:', error);
-            
+
             // Reset button on error
             submitButton.disabled = false;
             submitButton.classList.remove('loading');
             submitButton.innerHTML = originalText;
-            
-            // Show error message (you could add a more sophisticated error display)
+
+            // Show error message
             alert('Something went wrong. Please try again.');
         }
     });
